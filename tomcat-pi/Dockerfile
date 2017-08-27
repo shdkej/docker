@@ -1,0 +1,11 @@
+FROM dordoka/rpi-tomcat
+#라즈베리파이용 톰캣
+MAINTAINER shdkej@gmail.com
+
+RUN apt-get update
+RUN apt-get install vim git
+COPY server.xml /usr/local/conf/server.xml
+
+#VOLUME /home/pi/docker/tomcat
+
+EXPOSE 8080
