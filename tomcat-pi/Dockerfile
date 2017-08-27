@@ -5,6 +5,8 @@ MAINTAINER shdkej@gmail.com
 RUN apt-get update
 RUN apt-get install vim git
 COPY server.xml /usr/local/conf/server.xml
+RUN git clone https://github.com/shdkej/shdkej.git
+RUN cp shdkej/gvm.war webapps/gvm.war
 
 #VOLUME /home/pi/docker/tomcat
 
