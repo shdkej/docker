@@ -1,6 +1,6 @@
 FROM resin/rpi-raspbian:jessie
 
-RUN apt-get update
+RUN apt-get -y update
 RUN apt-get install -y postgresql apache2 php5 phppgadmin
 
 WORKDIR /etc/postgresql/9.4/main
