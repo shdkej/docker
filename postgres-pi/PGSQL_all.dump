@@ -294,6 +294,53 @@ ALTER SEQUENCE signdoc_docno_seq OWNED BY signdoc.docno;
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE users (
+    num integer NOT NULL,
+    username character varying(20) NOT NULL,
+    password character varying(500) NOT NULL,
+    name character varying(20) NOT NULL,
+    job_id integer,
+    department integer,
+    gender character varying(10) DEFAULT NULL::character varying,
+    birth character varying(45) DEFAULT NULL::character varying,
+    mail character varying(45) DEFAULT NULL::character varying,
+    phone character varying(45) DEFAULT NULL::character varying,
+    address character varying(45) DEFAULT NULL::character varying,
+    hire_date date DEFAULT now(),
+    isaccountnonexpired boolean DEFAULT true,
+    isaccountnonlocked boolean DEFAULT true,
+    iscredentialsnonexpired boolean DEFAULT true,
+    isenabled boolean DEFAULT true
+);
+
+
+ALTER TABLE users OWNER TO postgres;
+
+--
+-- Name: users_num_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE users_num_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE users_num_seq OWNER TO postgres;
+
+--
+-- Name: users_num_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE users_num_seq OWNED BY users.num;
+
+
+--
 -- Name: bno; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -333,6 +380,13 @@ ALTER TABLE ONLY signboard ALTER COLUMN signno SET DEFAULT nextval('signboard_si
 --
 
 ALTER TABLE ONLY signdoc ALTER COLUMN docno SET DEFAULT nextval('signdoc_docno_seq'::regclass);
+
+
+--
+-- Name: num; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users ALTER COLUMN num SET DEFAULT nextval('users_num_seq'::regclass);
 
 
 --
@@ -440,6 +494,21 @@ SELECT pg_catalog.setval('signdoc_docno_seq', 1, false);
 
 
 --
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY users (num, username, password, name, job_id, department, gender, birth, mail, phone, address, hire_date, isaccountnonexpired, isaccountnonlocked, iscredentialsnonexpired, isenabled) FROM stdin;
+\.
+
+
+--
+-- Name: users_num_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('users_num_seq', 1, false);
+
+
+--
 -- Name: dailyboard_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -485,6 +554,30 @@ ALTER TABLE ONLY signboard
 
 ALTER TABLE ONLY signdoc
     ADD CONSTRAINT signdoc_pkey PRIMARY KEY (docno);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (num);
+
+
+--
+-- Name: fk_dep; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fk_dep FOREIGN KEY (department) REFERENCES department(dep_no) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: fk_job; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT fk_job FOREIGN KEY (job_id) REFERENCES job(job_no) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
