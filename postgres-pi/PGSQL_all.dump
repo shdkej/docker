@@ -12,9 +12,9 @@ SET standard_conforming_strings = on;
 --
 
 CREATE ROLE gvm;
-ALTER ROLE gvm WITH SUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION PASSWORD 'md5ea7b902778de0fcb32f6977782b5b8ea';
+ALTER ROLE gvm WITH SUPERUSER INHERIT NOCREATEROLE NOCREATEDB LOGIN NOREPLICATION PASSWORD 'md50c305204db8904bad1d53133a370cc45';
 CREATE ROLE postgres;
-ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION;
+ALTER ROLE postgres WITH SUPERUSER INHERIT CREATEROLE CREATEDB LOGIN REPLICATION PASSWORD 'md524bb002702969490e41e26e1a454036c';
 
 
 
@@ -66,6 +66,18 @@ SET search_path = public, pg_catalog;
 SET default_tablespace = '';
 
 SET default_with_oids = false;
+
+--
+-- Name: authority; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE authority (
+    username character varying(20) NOT NULL,
+    authority_name character varying(45) DEFAULT 'ROLE_USER'::character varying NOT NULL
+);
+
+
+ALTER TABLE authority OWNER TO postgres;
 
 --
 -- Name: dailyboard; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -387,6 +399,14 @@ ALTER TABLE ONLY signdoc ALTER COLUMN docno SET DEFAULT nextval('signdoc_docno_s
 --
 
 ALTER TABLE ONLY users ALTER COLUMN num SET DEFAULT nextval('users_num_seq'::regclass);
+
+
+--
+-- Data for Name: authority; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY authority (username, authority_name) FROM stdin;
+\.
 
 
 --
