@@ -15,6 +15,7 @@ services:
       retries: 10
     ports:
       - "5432:5432"
+      - "80:80"
 
   tomcat:
     container_name: tomcat_compose
@@ -30,4 +31,4 @@ services:
     volumes:
       - ./:/app/
     ports:
-      - "80:8080"
+      - "8080:8080"
