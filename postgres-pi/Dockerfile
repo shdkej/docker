@@ -1,7 +1,7 @@
 FROM resin/rpi-raspbian:jessie
 
 RUN apt-get -y update
-RUN apt-get install -y postgresql apache2 php5 phppgadmin
+RUN apt-get install -y -qq postgresql apache2 php5 phppgadmin
 
 WORKDIR /etc/postgresql/9.4/main
 RUN sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" postgresql.conf
@@ -21,6 +21,11 @@ ENV POSTGRES_INITDB_ARGS=--encoding=UTF-8
 
 #VOLUME /etc/postgresql
 ADD PGSQL_all.dump /PGSQL_all.dump
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT /entrypoint.sh
+#ADD entrypoint.sh /entrypoint.sh
+#RUN chmod +x /entrypoint.sh
+#ENTRYPOINT /entrypoint.sh
+
+USER postgres
+RUN service postgresql start && psql -f /PGSQL_all.dump
+USER root
+CMD service postgresql start && service apache2 start && /bin/bash
