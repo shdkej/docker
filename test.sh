@@ -3,5 +3,5 @@
 git add .
 git commit -m "$(date +"%m-%d")"
 git push origin master
-expect shdkej
-expect shtjdgh1
+read shdkej
+read shtjdgh1
