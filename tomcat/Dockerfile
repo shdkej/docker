@@ -12,6 +12,8 @@ RUN cp /gvm.war webapps/gvm.war
 #RUN git clone https://github.com/shdkej/shdkej.git
 #RUn cp shdkej/gvm.war webapps/gvm.war
 
+ADD tomcat-users.xml /usr/local/tomcat/conf/tomcat-users.xml
+
 # VOLUME /home/pi/docker/tomcat
 
 EXPOSE 8080
