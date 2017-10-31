@@ -1,27 +1,35 @@
-import socket
-import telebot
+from gevent.server import StreamServer
+from gevent.queue import Queue
+import logging
 
-API_TOKEN = '420999875:AAF91t_aa1nObHtYyd74snZKYgs3rASwGZw'
+tasks = Queue()
 
-bot = telepot.TeleBot(API_TOKEN)
-bot_name = "433493318"
-host = socket.gethostname()
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+def handle(socket, address):
 
-@bot.message_handler(commands=['start'])
-def check(m):
-	user = bot.get_me()
-	bot.send_message(m.chat.id,"hello")
-	sock.bind(("192.168.0.54",7777))
-	sock.listen(50)
-	print("listen")
-	on = None
+	logging.debug('%s: received' % (address[0]))
+	f = socket.makefile('r')
+	task = tasks.get()
+	logging.debug('%s' %(task))
+	for l in f:
+		msg = l.strip()
+		socket.sendall(l)
+		logging.debug('msg: %s' %(msg))
+	name = f.readline().strip()
 	while True:
-		on,addr = sock.accept()
-		print("connect")
-		bot.send_message(m.chat.id,"connect!")
-		data = on.recv(1024)
-		print(str(data))
+		line = f.readline()
+		logging.debug('%s'%(line))
+		if not line:
+			print("not line")
+		st = line.strip().lower()
+		logginn.debug('%s'%(st))
+	socket.close()
+	
 
-start("msg")
-bot.polling(none_stop=True)
+if __name__ == '__main__':
+
+	server = StreamServer(('59.27.177.110',7777), handle)
+	logging.getLogger().setLevel(logging.DEBUG)
+	logging.info("START SERVER")
+	server.serve_forever()
+	
+	
