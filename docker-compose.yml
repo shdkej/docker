@@ -1,34 +1,17 @@
-version: '2.1'
-
+version: '2'
 services:
-  db:
-    container_name: postgres_compose
-    build:
-      context: ./postgres
-    image: postgres
-    volumes:
-    - ./postgres/data:/var/lib/postgresql/data
-    healthcheck:
-      test: "pg_isready -h localhost -p 5432 -q -U postgres"
-      interval: 3s
-      timeout: 1s
-      retries: 10
-    ports:
-      - "5432:5432"
-      - "80:80"
-
-  tomcat:
-    container_name: tomcat_compose
-    build:
-      context: ./tomcat
-    volumes:
-      - /var/lib/tomcat
+  web:
+    image: odoo:10.0
     depends_on:
-      db:
-        condition: service_healthy
-    links:
       - db
-    volumes:
-      - ./:/app/
     ports:
-      - "8080:8080"
+      - "8069:8069"
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=myodoo
+  db:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_PASSWORD=myodoo
+      - POSTGRES_USER=odoo
