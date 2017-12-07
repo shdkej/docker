@@ -1,17 +1,22 @@
 version: '2'
 services:
   web:
-    image: odoo:10.0
+    image: shdkej/odoo_web:0.3
     depends_on:
       - db
     ports:
       - "8069:8069"
+    volumes:
+      - "/home/gvm/docker/odoo/purchase:/usr/lib/python2.7/dist-packages/odoo/addons/purchase"
+      - "/home/gvm/docker/odoo/web_responsive:/usr/lib/python2.7/dist/packages/odoo/addons/web_responsive"
+      - "/home/gvm/docker/odoo/project:/usr/lib/python2.7/dist-packages/odoo/addons/project"
+      - "/home/gvm/docker/odoo/mail:/usr/lib/python2.7/dist-packages/odoo/addons/mail"
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=myodoo
   db:
-    image: postgres:9.4
+    image: shdkej/odoo_db:0.3
     environment:
       - POSTGRES_PASSWORD=myodoo
       - POSTGRES_USER=odoo

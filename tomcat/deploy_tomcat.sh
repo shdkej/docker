@@ -10,5 +10,5 @@ docker rm tomcat
 
 cd /home/$USER/docker/tomcat/
 docker build -t tomcat .
-docker run -d -p 80:8080 --name tomcat tomcat
+docker run -d -p 90:8080 --name tomcat tomcat
 docker restart tomcat
