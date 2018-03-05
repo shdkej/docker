@@ -15,8 +15,6 @@ RUN mkdir /etc/postgresql/9.5/main/data
 #RUN (crontab -l 2>/dev/null; echo "*/5 * * * * /postgres_backup.sh") | crontab -
 
 EXPOSE 5432
-#EXPOSE 80
-
 
 ENV PGDATA = /var/lib/postgresql/9.5/main
 ENV POSTGRES_DB gvm
@@ -27,7 +25,7 @@ ENV POSTGRES_INITDB_ARGS=--encoding=UTF-8
 #CMD service postgresql start && service apache2 start && /bin/bash
 
 #VOLUME ["/etc/postgresql/9.5/main"]
-ADD data/PGSQL_all.dump /PGSQL_all.dump
+ADD data/PGSQL_201712.dump /PGSQL_all.dump
 ADD postgres_backup.sh /postgres_backup.sh
 #ADD entrypoint.sh /entrypoint.sh
 #RUN chmod +x /entrypoint.sh

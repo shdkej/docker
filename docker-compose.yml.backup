@@ -1,0 +1,68 @@
+version: '3'
+services:
+  web:
+    image: shdkej/odoo_web:0.3
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - "/home/gvm/docker/odoo/purchase:/usr/lib/python2.7/dist-packages/odoo/addons/purchase"
+      - "/home/gvm/docker/odoo/web_responsive:/usr/lib/python2.7/dist/packages/odoo/addons/web_responsive"
+      - "/home/gvm/docker/odoo/project:/usr/lib/python2.7/dist-packages/odoo/addons/project"
+      - "/home/gvm/docker/odoo/mail:/usr/lib/python2.7/dist-packages/odoo/addons/mail"
+      - "/home/gvm/docker/odoo/web:/usr/lib/python2.7/dist-packages/odoo/addons/web"
+      - "/home/gvm/docker/odoo/hr:/usr/lib/python2.7/dist-packages/odoo/addons/hr"
+      - "/home/gvm/docker/odoo/res:/usr/lib/python2.7/dist-packages/odoo/addons/base/res"
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=myodoo
+    working_dir: /usr/lib/python2.7/dist-packages/odoo/
+  db:
+    image: shdkej/odoo_db:0.3
+    environment:
+      - POSTGRES_PASSWORD=myodoo
+      - POSTGRES_USER=odoo
+    ports:
+      - "5433:5432"
+
+  tomcat:
+    build:
+      context: ./tomcat
+    ports:
+      - "90:8080"
+    healthcheck:
+      retries: 2
+
+  nginx:
+    build:
+      context: ./nginx
+    volumes:
+      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./nginx/conf.d:/etc/nginx/conf.d"
+      - "/etc/letsencrypt:/etc/letsencrypt"
+    ports:
+      - "80:80"
+      - "443:443"
+
+  nagios4:
+    build:
+      context: ./nagios
+    volumes:
+      - "./nagios/etc:/opt/nagios/etc"
+    ports:
+      - "8080:80" 
+
+#  postgres:
+#    build:
+#      context: ./postgres
+#    volumes:
+#      - ./postgres/data:/var/lib/postgresql/data
+#    healthcheck:
+#      test: "pg_isready -h localhost -p 5432 -q -U postgres"
+#      interval: 3s
+#      timeout: 1s
+#      retries: 10
+#    ports:
+#      - "5432:5432"
