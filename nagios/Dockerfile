@@ -9,12 +9,14 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
 RUN wget -O /usr/local/bin/nagios_telegram.py https://raw.githubusercontent.com/pommi/telegram_nagios/master/telegram_nagios.py
 RUN chmod 755 /usr/local/bin/nagios_telegram.py
 
-COPY ./check_tomcat.pl /opt/nagios/libexec/check_tomcat.pl
-COPY ./check_tomcat.py /opt/nagios/libexec/check_tomcat.py
+RUN wget -O /usr/local/bin/check_docker https://raw.githubusercontent.com/timdaman/check_docker/master/check_docker
+RUN wget -O /usr/local/bin/check_swarm https://raw.githubusercontent.com/timdaman/check_docker/master/check_swarm
+RUN wget -O /usr/local/bin/check_nginx.pl https://raw.githubusercontent.com/regilero/check_nginx_status/master/check_nginx_status.pl
+RUN chmod a+rx /usr/local/bin/check_docker /usr/local/bin/check_swarm /usr/local/bin/check_nginx.pl
+
 COPY ./check_postgres /opt/nagios/libexec/check_postgres
 
 WORKDIR /opt/nagios/libexec
-RUN chmod 755 check_tomcat.pl && chmod 755 check_tomcat.py
 WORKDIR /opt/nagios/libexec/check_postgres
 RUN apt-get install -y libxml-xpath-perl
 #RUN perl Makefile.PL
@@ -22,6 +24,7 @@ RUN apt-get install -y libxml-xpath-perl
 #RUN env -i make test
 #RUN make install
 RUN apt-get update && apt-get install -y postgresql
+ENV PERL5LIB=$PERL5LIB:/usr/lib/nagios/plugins
 
 VOLUME /opt/nagios/etc/
 EXPOSE 80

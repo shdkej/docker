@@ -29,16 +29,20 @@ services:
     volumes:
       - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
       - "./nginx/conf.d:/etc/nginx/conf.d"
+      - "./nginx/log:/var/log/nginx/"
+      - "./nginx/report:/etc/nginx/report"
       - "/etc/letsencrypt:/etc/letsencrypt"
     ports:
       - "80:80"
       - "443:443"
+      - "8090:8090"
 
   nagios4:
     build:
       context: ./nagios
     volumes:
       - "./nagios/etc:/opt/nagios/etc"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     ports:
       - "8080:80" 
 
