@@ -1,20 +1,22 @@
 version: '3'
 services:
   web:
-    image: shdkej/odoo_web:0.5.0
+    image: shdkej/odoo_web:latest
     depends_on:
       - db
     ports:
       - "8069:8069"
     volumes:
+      - /home/gvm/samba:/samba
       - odoo-web-data:/var/lib/odoo
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=myodoo
-    working_dir: /usr/lib/python2.7/dist-packages/odoo/
+    working_dir: /usr/lib/python2.7/dist-packages/odoo/addons/
   db:
     image: postgres:9.4
+    #    image: shdkej/odoo_db:latest
     environment:
       - POSTGRES_PASSWORD=myodoo
       - POSTGRES_USER=odoo

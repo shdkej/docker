@@ -4,3 +4,6 @@ odoo/project
 odoo/product
 odoo/web_responsive
 letsencrypt.log
+nginx/log/*
+postgres/data
+nagios/check_docker

@@ -47,15 +47,15 @@ server {
 
 server{
 
-#    listen 	80;
-    listen 443 ssl;
+    listen 	80;
+#    listen 443 ssl;
 
-    ssl on;
-    ssl_certificate /etc/letsencrypt/live/erp.gvmltd.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/erp.gvmltd.com/privkey.pem;
-    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-    ssl_prefer_server_ciphers on;
-    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+#    ssl on;
+#    ssl_certificate /etc/letsencrypt/live/erp.gvmltd.com/fullchain.pem;
+#    ssl_certificate_key /etc/letsencrypt/live/erp.gvmltd.com/privkey.pem;
+#    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+#    ssl_prefer_server_ciphers on;
+#    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
 
     server_name erp.gvmltd.com;
     client_max_body_size 3000M;
@@ -73,11 +73,11 @@ server{
         allow all;
     }
 }
-server{
-   listen 80;
-   server_name erp.gvmltd.com;
-   return 301 https://$host$request_uri;
-}
+#server{
+#   listen 80;
+#   server_name erp.gvmltd.com;
+#   return 301 https://$host$request_uri;
+#}
 server{
    listen 8090;
    location /nginx_status {
