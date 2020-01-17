@@ -6,6 +6,7 @@ services:
       - db
     ports:
       - "8069:8069"
+      - "8072:8072"
     volumes:
       - /home/gvm/samba:/samba
       - odoo-web-data:/var/lib/odoo
