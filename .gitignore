@@ -7,3 +7,4 @@ letsencrypt.log
 nginx/log/*
 postgres/data
 nagios/check_docker
+tags
