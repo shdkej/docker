@@ -1,0 +1,9 @@
+version: "3"
+services:
+  gcc:
+    container_name: app
+    image: gcc:4.9
+    working_dir: /code
+    volumes:
+      - ./:/code
+    tty: true
