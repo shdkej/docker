@@ -2,10 +2,9 @@ version: "2"
 services:
   jenkins:
     container_name: jenkins
-    image: jenkins
-    #build: ./
+    image: jenkins/jenkins
     volumes:
-      - /var/jenkins_home
+      - ./:/var/jenkins_home
     ports:
       - 8070:8080
       - 50000:50000
